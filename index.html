@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Grémillon - Cuisine Française Raffinée à Saint-Max</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a3a2e;
+            --accent: #d4af37;
+            --cream: #f5f1e8;
+            --dark-cream: #e8dcc8;
+            --text-dark: #2c2c2c;
+            --text-light: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        /* HEADER & NAVIGATION */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(245, 241, 232, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 2px;
+            order: 1;
+        }
+
+        .logo .le {
+            font-weight: 300;
+            font-size: 1.5rem;
+            margin-right: 0.3rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            order: 2;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Modal appel téléphonique */
+        .call-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .call-modal.active {
+            display: flex;
+        }
+
+        .call-modal-content {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .call-modal-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2.5rem;
+            animation: pulse-icon 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-icon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .call-modal h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .call-modal-phone {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            letter-spacing: 3px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .call-modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-call {
+            background: var(--accent);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            letter-spacing: 1px;
+        }
+
+        .btn-call:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(26, 58, 46, 0.3);
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: var(--text-dark);
+            padding: 1rem 2rem;
+            border: 2px solid var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .btn-cancel:hover {
+            background: var(--cream);
+            border-color: var(--text-dark);
+        }
+
+        .call-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-light);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+
+        .call-modal-close:hover {
+            color: var(--text-dark);
+        }
+        .burger-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            order: 2; /* Positionner après les nav-links */
+        }
+
+        .burger-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .burger-menu.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .burger-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Menu mobile overlay */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 100px;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            padding: 2rem;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .mobile-menu li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(26, 58, 46, 0.1);
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+        }
+
+        .btn-reservation {
+            background: var(--accent);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            order: 3;
+            border-radius: 0;
+            text-decoration: none;
+        }
+
+        .btn-reservation:visited,
+        .btn-reservation:link {
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-reservation::before {
+            content: '📞';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reservation:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(26, 58, 46, 0.3);
+            padding-left: 3rem;
+        }
+
+        .btn-reservation:hover::before {
+            left: 1rem;
+            opacity: 1;
+        }
+
+        .btn-reservation:active {
+            transform: translateY(-2px) scale(0.98);
+            animation: pulse-phone 0.6s ease-out;
+        }
+
+        @keyframes pulse-phone {
+            0%, 100% { transform: translateY(-2px) scale(0.98); }
+            50% { transform: translateY(-2px) scale(1.05); }
+        }
+
+        /* HERO SECTION */
+        .hero {
+            margin-top: 0;
+            height: 90vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(26, 58, 46, 0.85) 0%, rgba(45, 90, 74, 0.85) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/fb39f553-14ed-44a1-92bd-392b14105c5b-1600-1632w.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: 3px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero h1 strong {
+            font-weight: 700;
+            display: block;
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1.2rem 3rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            border: 2px solid var(--accent);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            background: transparent;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .btn-secondary:visited,
+        .btn-secondary:link {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .btn-phone-hero::before {
+            content: '📞';
+            position: absolute;
+            left: -35px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.3rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .btn-phone-hero:hover {
+            padding-left: 3.5rem;
+        }
+
+        .btn-phone-hero:hover::before {
+            left: 1.2rem;
+            opacity: 1;
+            animation: ring 0.8s ease-in-out infinite;
+        }
+
+        @keyframes ring {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            10%, 30% { transform: translateY(-50%) rotate(-15deg); }
+            20%, 40% { transform: translateY(-50%) rotate(15deg); }
+            50% { transform: translateY(-50%) rotate(0deg); }
+        }
+
+        .btn-phone-hero:active {
+            transform: translateY(-3px) scale(0.97);
+            animation: pulse-call 0.5s ease-out;
+        }
+
+        @keyframes pulse-call {
+            0%, 100% { transform: translateY(-3px) scale(0.97); }
+            50% { transform: translateY(-3px) scale(1.03); }
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            padding: 8rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-content {
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .about h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .about p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-image {
+            position: relative;
+            height: 600px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 
+                20px 20px 0 rgba(212, 175, 55, 0.2),
+                -20px -20px 0 rgba(26, 58, 46, 0.1);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(26, 58, 46, 0.3) 0%, transparent 100%);
+            z-index: 1;
+        }
+
+        .about-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, #4a7c5d 50%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: white;
+            opacity: 0.7;
+        }
+
+        /* MENU PREVIEW */
+        .menu-preview {
+            background: var(--primary);
+            padding: 8rem 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-preview::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, 50px) rotate(90deg); }
+            50% { transform: translate(0, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+        }
+
+        .menu-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-preview h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 0;
+            background: var(--accent);
+            transition: height 0.4s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card:hover::before {
+            height: 100%;
+        }
+
+        .menu-category {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .menu-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-items li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 1.05rem;
+        }
+
+        .menu-items li:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-weight: 400;
+        }
+
+        .item-price {
+            color: var(--accent);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+        }
+
+        /* GALLERY */
+        .gallery {
+            padding: 8rem 2rem;
+            background: var(--dark-cream);
+        }
+
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--primary) 0%, #4a7c5d 50%, var(--accent) 100%);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 58, 46, 0.3);
+            transition: opacity 0.4s ease;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 0;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: white;
+            opacity: 0.6;
+        }
+
+        /* CONTACT */
+        .contact {
+            padding: 8rem 2rem;
+            background: var(--cream);
+        }
+
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+        }
+
+        .contact h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .info-content h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-content p {
+            color: var(--text-light);
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+
+        .contact-map {
+            height: 500px;
+            border-radius: 2px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(20%);
+            transition: filter 0.3s ease;
+        }
+
+        .contact-map:hover iframe {
+            filter: grayscale(0%);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 968px) {
+            /* Hero mobile */
+            .hero {
+                height: 70vh;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            /* Navigation mobile */
+            .nav-links {
+                display: none;
+            }
+
+            .burger-menu {
+                display: none; /* Masquer le burger sur mobile */
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            nav {
+                justify-content: space-between;
+            }
+
+            .logo {
+                order: 1;
+            }
+
+            .btn-reservation {
+                order: 2;
+            }
+
+            /* Sections */
+            .about,
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-image {
+                height: 350px;
+                order: -1; /* Image en premier sur mobile */
+            }
+
+            /* Menu cards plus compactes */
+            .menu-card {
+                padding: 2rem;
+            }
+
+            .menu-card h3 {
+                font-size: 1.6rem;
+            }
+
+            /* Galerie 2 colonnes sur tablette */
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            /* Menus responsive */
+            .menu-preview div[style*="grid-template-columns: repeat(auto-fit"] {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Bande info plus compacte sur tablette */
+            nav {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            /* Hero très compact sur mobile */
+            .hero {
+                height: 60vh;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+                line-height: 1.3;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Navigation */
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .btn-reservation {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            /* Sections titres */
+            .about h2,
+            .menu-preview h2,
+            .gallery h2,
+            .contact h2 {
+                font-size: 2.5rem;
+            }
+
+            .section-label {
+                font-size: 0.8rem;
+            }
+
+            /* About image plus petite */
+            .about-image {
+                height: 250px;
+            }
+
+            .about-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            /* Gallery images mobile */
+            .gallery-item {
+                height: 250px;
+            }
+
+            .gallery-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            /* Menu */
+            .menu-card {
+                padding: 1.5rem;
+            }
+
+            .menu-items li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+
+            .item-price {
+                font-size: 1.1rem;
+            }
+
+            /* Galerie 1 colonne sur mobile */
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Menu grid 1 colonne */
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .menu-preview div[style*="grid-template-columns: repeat(auto-fit"] > div {
+                min-width: 100% !important;
+            }
+
+            /* Footer compact */
+            .footer-bottom {
+                font-size: 0.8rem;
+            }
+
+            /* Bande info mobile ultra compacte */
+            header + div {
+                padding: 0.2rem 0;
+                font-size: 0.65rem;
+            }
+
+            header + div > div {
+                gap: 0.5rem;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            header + div > div > div {
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+            header + div span {
+                font-size: 0.75rem;
+            }
+
+            header + div a,
+            header + div p {
+                font-size: 0.65rem;
+                font-weight: 500;
+            }
+        }
+
+        /* Desktop enhancements (écrans larges) */
+        @media (min-width: 1400px) {
+            .hero h1 {
+                font-size: 5.5rem;
+            }
+
+            .menu-grid {
+                gap: 4rem;
+            }
+
+            .gallery-grid {
+                gap: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><span class="le">Le</span> GRÉMILLON</div>
+            <ul class="nav-links">
+                <li><a href="#accueil">ACCUEIL</a></li>
+                <li><a href="#carte">LA CARTE</a></li>
+                <li><a href="#galerie">GALERIE</a></li>
+                <li><a href="#histoire">NOTRE HISTOIRE</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+            <button class="burger-menu" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a href="tel:0383295357" class="btn-reservation" style="text-decoration: none;">RÉSERVER</a>
+        </nav>
+    </header>
+
+    <!-- Menu mobile -->
+    <div class="mobile-menu">
+        <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#carte">La Carte</a></li>
+            <li><a href="#galerie">Galerie</a></li>
+            <li><a href="#histoire">Notre Histoire</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Modal d'appel téléphonique -->
+    <div class="call-modal" id="callModal">
+        <div class="call-modal-content">
+            <button class="call-modal-close" onclick="closeCallModal()">×</button>
+            <div class="call-modal-icon">📞</div>
+            <h3>Réserver une table</h3>
+            <div class="call-modal-phone">03 83 29 53 57</div>
+            <p style="color: #666; margin-bottom: 2rem; font-size: 0.95rem;">Appelez-nous pour réserver votre table</p>
+            <div class="call-modal-buttons">
+                <a href="tel:0383295357" class="btn-call">☎ Appeler</a>
+                <button class="btn-cancel" onclick="closeCallModal()">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bande info légère téléphone et horaires -->
+    <div style="background: rgba(212, 175, 55, 0.12); border-bottom: 1px solid rgba(212, 175, 55, 0.25); padding: 0.8rem 0; margin-top: 100px;">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <span style="font-size: 1.2rem;">📞</span>
+                <div>
+                    <a href="tel:0383295357" style="font-size: 1.1rem; font-weight: 600; color: var(--primary); text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#d4af37'" onmouseout="this.style.color='#1a3a2e'">03 83 29 53 57</a>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <span style="font-size: 1.2rem;">🕐</span>
+                <div>
+                    <p style="font-size: 0.9rem; font-weight: 500; color: var(--primary); margin: 0;">Mer-Sam : 12h-14h / 19h30-21h30 • Mar & Dim : 12h-14h</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <h1>
+                Restaurant <strong>Le Grémillon</strong>
+            </h1>
+            <p class="hero-subtitle">Cuisine française traditionnelle à Saint-Max depuis 8 ans</p>
+            <div class="hero-buttons">
+                <a href="#carte" class="btn-primary">DÉCOUVRIR LA CARTE</a>
+                <a href="tel:0383295357" class="btn-secondary btn-phone-hero" style="text-decoration: none;">RÉSERVER UNE TABLE</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="menu-preview" id="carte">
+        <div class="menu-container">
+            <h2>Notre Carte</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-category">NOS ENTRÉES</div>
+                    <h3>Pour Commencer</h3>
+                    <ul class="menu-items">
+                        <li>
+                            <span class="item-name">Noix de St Jacques rôties au zeste de citron vert</span>
+                            <span class="item-price">14,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Foie-gras de canard "maison" et son chutney</span>
+                            <span class="item-price">14,50€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Salade Landaise</span>
+                            <span class="item-price">13,50€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Salade de chèvre chaud au miel</span>
+                            <span class="item-price">8,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Terrine de campagne et ses condiments</span>
+                            <span class="item-price">7,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Entrée du moment</span>
+                            <span class="item-price">7,00€</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-category">NOS PLATS</div>
+                    <h3>Les Spécialités du Chef</h3>
+                    <ul class="menu-items">
+                        <li>
+                            <span class="item-name">Duo de rognons et ris de veau aux morilles</span>
+                            <span class="item-price">21,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Noix de St Jacques poêlées au chorizo</span>
+                            <span class="item-price">20,50€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Pavé de rumsteck poêlé aux morilles</span>
+                            <span class="item-price">19,50€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Sandre rôti au vin rouge</span>
+                            <span class="item-price">17,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Pavé de rumsteck poêlé au poivre vert</span>
+                            <span class="item-price">16,50€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Suprême de volaille fermière façon grand-mère</span>
+                            <span class="item-price">14,50€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Pièce de boucher à l'échalote ou au poivre vert</span>
+                            <span class="item-price">14,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Rognons de veau flambés au cognac</span>
+                            <span class="item-price">14,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Andouillette grillée de Troyes à la moutarde</span>
+                            <span class="item-price">14,00€</span>
+                        </li>
+                        <li>
+                            <span class="item-name">Tête de veau sauce gribiche</span>
+                            <span class="item-price">13,50€</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Section séparée pour les menus -->
+            <div style="margin-top: 5rem; padding-top: 4rem; border-top: 2px solid rgba(212, 175, 55, 0.3);">
+                <h2 style="text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 3rem; margin-bottom: 1rem; color: var(--accent);">Nos Formules</h2>
+                <p style="text-align: center; margin-bottom: 4rem; opacity: 0.9; font-size: 1.1rem;">Entrée + Plat + Dessert</p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 3rem; max-width: 1200px; margin: 0 auto;">
+                    <div class="menu-card" style="background: rgba(212, 175, 55, 0.1); border: 2px solid var(--accent);">
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <h4 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--accent); margin-bottom: 0.5rem;">24,50€</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Menu Tradition</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <p style="font-weight: 600; margin-bottom: 1rem; font-size: 0.95rem; letter-spacing: 1px; color: var(--accent);">ENTRÉES AU CHOIX</p>
+                            <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Salade de chèvre chaud au miel
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Terrine de campagne et ses condiments
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Entrée du moment
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <p style="font-weight: 600; margin-bottom: 1rem; font-size: 0.95rem; letter-spacing: 1px; color: var(--accent);">PLATS AU CHOIX</p>
+                            <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Pièce du boucher à l'échalote ou au poivre vert
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Tête de veau sauce gribiche
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Suprême de volaille fermière façon grand-mère
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <p style="font-weight: 600; margin-bottom: 1rem; font-size: 0.95rem; letter-spacing: 1px; color: var(--accent);">DESSERTS AU CHOIX</p>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Ile flottante
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Pâtisserie du jour
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Coupe glacée (2 parfums)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-card" style="background: rgba(212, 175, 55, 0.15); border: 2px solid var(--accent);">
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <h4 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--accent); margin-bottom: 0.5rem;">34€</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Menu Gastronomique</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <p style="font-weight: 600; margin-bottom: 1rem; font-size: 0.95rem; letter-spacing: 1px; color: var(--accent);">ENTRÉES AU CHOIX</p>
+                            <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Foie-gras de canard "maison" et son chutney aux figues
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Duo de St Jacques et saumon en chaud-froid
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Salade landaise (jambon cru, gésiers, magret fumé et foie-gras)
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-bottom: 2rem;">
+                            <p style="font-weight: 600; margin-bottom: 1rem; font-size: 0.95rem; letter-spacing: 1px; color: var(--accent);">PLATS AU CHOIX</p>
+                            <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Pavé de rumsteck poêlé au poivre vert
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Duo de rognons et ris de veau aux morilles
+                                </li>
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Sandre rôti au vin rouge et sa fondue de poireaux
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <p style="font-weight: 600; margin-bottom: 1rem; font-size: 0.95rem; letter-spacing: 1px; color: var(--accent);">DESSERTS AU CHOIX</p>
+                            <ul style="list-style: none; padding: 0;">
+                                <li style="padding: 0.5rem 0; padding-left: 1.5rem; position: relative; opacity: 0.95;">
+                                    <span style="position: absolute; left: 0; color: var(--accent);">•</span>
+                                    Carte des desserts (sauf café gourmand)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="galerie">
+        <div class="gallery-container">
+            <h2>Galerie</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/8b9a5d77-443c-4e90-b551-76020acc2ffa-1600-1632w.jpg" alt="Cuisine française traditionnelle" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/07bdd381-f4b7-4aee-b185-e865934485d0-1600-1632w.jpg" alt="Restaurant Le Grémillon Saint Max" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/85bbecd7-69b3-4927-a875-b0d5f7eb7a55-1600-1632w.jpg" alt="Plat du restaurant" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/17ff9347-e1b8-4ecb-8d1a-9000ddfd8e4a-1600-1632w.jpg" alt="Restaurant Saint Max" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/b334980f-1dbc-46bb-9865-39a613d15341-1600-1632w.jpg" alt="Restaurant traditionnel" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/7d5a261f-c270-4c18-acaa-6589f4c77373-1600-1632w.jpg" alt="Le Grémillon" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="histoire">
+        <div class="about-content">
+            <div class="section-label">NOTRE HISTOIRE</div>
+            <h2>Les Saveurs d'une Véritable Cuisine Française</h2>
+            <p>
+                Depuis plus de huit ans, le <strong>Restaurant Le Grémillon</strong> vous accueille chaleureusement à Saint-Max en Meurthe-et-Moselle.
+            </p>
+            <p>
+                Nous vous invitons à venir déguster nos <strong>plats onctueux mijotés</strong> par notre chef cuisinier. Nous concoctons de la <strong>cuisine française traditionnelle</strong>. Vous pouvez choisir parmi nos mets à la carte et nos menus. Afin de toujours vous surprendre, nous vous proposons des <strong>formules du jour</strong> qui changent souvent au gré des envies de notre chef.
+            </p>
+            <p>
+                Nous vous recevons dans une ambiance simple et agréable pour un repas entre amis ou en famille. Nous disposons d'une <strong>terrasse</strong> qui vous permet d'apprécier les senteurs de l'été tout en déjeunant.
+            </p>
+        </div>
+        <div class="about-image">
+            <img src="https://le-de.cdn-website.com/1ed1f7edf5db4d22a6a7fc6b9a429b5d/dms3rep/multi/opt/0ce42e15-d35c-455b-a340-ae03abaef268-1600-1632w.jpg" alt="Restaurant Le Grémillon à Saint Max" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div>
+                <h2>Nous Contacter</h2>
+                <div class="contact-info">
+                        <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-content">
+                            <h3>Adresse</h3>
+                            <p>Restaurant Le Grémillon<br>102 avenue Carnot<br>54130 Saint-Max<br>Meurthe-et-Moselle</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">📞</div>
+                        <div class="info-content">
+                            <h3>Téléphone</h3>
+                            <p>03 83 29 53 57<br>Réservations recommandées</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">🕐</div>
+                        <div class="info-content">
+                            <h3>Horaires</h3>
+                            <p>
+                                <strong>Lundi :</strong> Fermé<br>
+                                <strong>Mardi :</strong> 12h00 - 14h00 (fermé le soir)<br>
+                                <strong>Mercredi au samedi :</strong> 12h00 - 14h00 / 19h30 - 21h30<br>
+                                <strong>Dimanche :</strong> 12h00 - 14h00<br>
+                                <span style="margin-top: 0.5rem; display: inline-block; color: var(--accent);">Parking à proximité</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">✉️</div>
+                        <div class="info-content">
+                            <h3>Email</h3>
+                            <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1a7975746e7b796e5a687f696e7b6f687b746e377d687f777376767574347c68">[email&#160;protected]</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-map">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2634.5!2d6.2165!3d48.7034!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4794a2f9a9a9a9a9%3A0x0!2s102%20Avenue%20Carnot%2C%2054130%20Saint-Max!5e0!3m2!1sfr!2sfr!4v1234567890"
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Localisation du Restaurant Grémillon - 102 Avenue Carnot, Saint-Max">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Restaurant Le Grémillon</h3>
+                <p>Depuis plus de 8 ans, une cuisine française traditionnelle authentique à Saint-Max. Plats mijotés et formules du jour qui changent au gré des envies du chef.</p>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem; font-style: italic;">L'abus d'alcool est dangereux pour la santé, consommez avec modération.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Rapides</h3>
+                <a href="#accueil">Accueil</a>
+                <a href="#histoire">Notre Histoire</a>
+                <a href="#carte">La Carte</a>
+                <a href="#galerie">Galerie</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>102 avenue Carnot<br>54130 Saint-Max</p>
+                <p>Tél : 03 83 29 53 57</p>
+                <p style="margin-top: 1rem;">
+                    <strong>Horaires :</strong><br>
+                    Lundi : Fermé<br>
+                    Mardi : 12h-14h<br>
+                    Mer-Sam : 12h-14h / 19h30-21h30<br>
+                    Dimanche : 12h-14h
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Restaurant Le Grémillon - 102 avenue Carnot, 54130 Saint-Max | Tél : 03 83 29 53 57</p>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Modal d'appel téléphonique
+        function openCallModal() {
+            document.getElementById('callModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Empêcher le scroll
+        }
+
+        function closeCallModal() {
+            document.getElementById('callModal').classList.remove('active');
+            document.body.style.overflow = ''; // Restaurer le scroll
+        }
+
+        // Fermer la modal en cliquant en dehors
+        document.getElementById('callModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCallModal();
+            }
+        });
+
+        // Fermer avec la touche Echap
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCallModal();
+            }
+        });
+
+        // Menu burger mobile
+        const burgerMenu = document.querySelector('.burger-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+
+        burgerMenu.addEventListener('click', () => {
+            burgerMenu.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu quand on clique sur un lien
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                burgerMenu.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Fermer le menu si on clique en dehors
+        document.addEventListener('click', (e) => {
+            if (!burgerMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                burgerMenu.classList.remove('active');
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Smooth scrolling pour les liens d'ancrage
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.menu-card, .gallery-item, .info-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Header background au scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(245, 241, 232, 0.98)';
+                header.style.
